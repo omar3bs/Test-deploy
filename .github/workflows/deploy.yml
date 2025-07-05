@@ -22,4 +22,4 @@ jobs:
 
       - name: Copy file to server
         run: |
-          scp -P ${{ secrets.SSH_PORT || 22 }} hello.txt ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/hello.txt
+          scp -P ${{ secrets.SSH_PORT }} hello.txt ... ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/hello.txt

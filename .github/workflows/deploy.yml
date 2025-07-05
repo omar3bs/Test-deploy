@@ -33,4 +33,4 @@ jobs:
 
       - name: Copy Hello.txt to server
         run: |
-          scp -P ${{ secrets.SSH_PORT }} Hello.txt ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/Hello.txt
+          scp -P ${{ secrets.SSH_PORT }} Hello.txt ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/Hello.txt

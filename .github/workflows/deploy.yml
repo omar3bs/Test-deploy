@@ -3,7 +3,7 @@ name: Deploy to Ubuntu Server
 on:
   push:
     branches:
-      - main  # Trigger on push to main branch
+      - main
 
 jobs:
   deploy:
@@ -22,4 +22,4 @@ jobs:
 
       - name: Copy file to server
         run: |
-          scp -P ${{ secrets.SSH_PORT }} hello.txt ... ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/hello.txt
+          scp -i ~/.ssh/id_ed25519 -P ${{ secrets.SSH_PORT }} hello.txt ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/hello.txt

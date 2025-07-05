@@ -1,36 +1,16 @@
-name: Deploy to Ubuntu Server
-
-on:
-  push:
-    branches:
-      - main
-
+name: scp files
+on: [push]
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up SSH key and known hosts
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_PORT: ${{ secrets.SSH_PORT }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-
-      - name: Check that Hello.txt exists
-        run: |
-          if [ ! -f Hello.txt ]; then
-            echo "❌ 'Hello.txt' not found in repo."
-            exit 1
-          fi
-
-      - name: Copy Hello.txt to server
-        run: |
-          scp Hello.txt ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/
+      - uses: actions/checkout@v4
+      - name: Copy files via SSH
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          source: "tests/a.txt,tests/b.txt"
+          target: your_server_target_folder_path

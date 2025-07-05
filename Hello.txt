@@ -1,2 +1,2 @@
 Hello, this is a test deployment.
-TEST DEPLOYMENT V005
+TEST DEPLOYMENT V006

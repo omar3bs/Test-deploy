@@ -10,16 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up SSH key and known hosts
+      - name: 🔐 Set up SSH
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p "${{ secrets.SSH_PORT }}" -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
-      - name: Copy file to server
+      - name: 🚀 Deploy hello.txt to server
         run: |
-          scp -P ${{ secrets.SSH_PORT }} hello.txt ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/hello.txt
+          if [ ! -f hello.txt ]; then
+            echo "❌ 'hello.txt' not found in repo. Please commit it."
+            exit 1
+          fi
+          scp -P "${{ secrets.SSH_PORT }}" hello.txt ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/hello.txt

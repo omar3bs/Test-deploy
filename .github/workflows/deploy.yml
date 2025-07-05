@@ -24,13 +24,13 @@ jobs:
           SSH_PORT: ${{ secrets.SSH_PORT }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
-      - name: Check that hello.txt exists
+      - name: Check that Hello.txt exists
         run: |
-          if [ ! -f hello.txt ]; then
-            echo "❌ 'hello.txt' not found in repo. Please commit it."
+          if [ ! -f Hello.txt ]; then
+            echo "❌ 'Hello.txt' not found in repo."
             exit 1
           fi
 
-      - name: Copy hello.txt to server
+      - name: Copy Hello.txt to server
         run: |
-          scp -P ${{ secrets.SSH_PORT }} hello.txt ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/hello.txt
+          scp -P ${{ secrets.SSH_PORT }} Hello.txt ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/Hello.txt

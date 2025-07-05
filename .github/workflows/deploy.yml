@@ -1,10 +1,23 @@
 name: scp files
+
 on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
+      - name: Create test files
+        run: |
+          mkdir -p tests
+          echo "Hello from a.txt" > tests/a.txt
+          echo "Hello from b.txt" > tests/b.txt
+
+      - name: List files for debug
+        run: ls -l tests
+
       - name: Copy files via SSH
         uses: appleboy/scp-action@v1
         with:
@@ -13,4 +26,4 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "tests/a.txt,tests/b.txt"
-          target: your_server_target_folder_path
+          target: /home/khaled/target_folder  # change this to your server path
